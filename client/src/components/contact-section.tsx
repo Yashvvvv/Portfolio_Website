@@ -40,21 +40,24 @@ export function ContactSection() {
   };
 
   const socialLinks = [
-    { icon: Mail, label: 'Email', href: 'mailto:yash@example.com', color: 'bg-blue-600 hover:bg-blue-700' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#', color: 'bg-blue-600 hover:bg-blue-700' },
-    { icon: Github, label: 'GitHub', href: '#', color: 'bg-gray-800 hover:bg-gray-900' },
-    { icon: Twitter, label: 'Twitter', href: '#', color: 'bg-blue-500 hover:bg-blue-600' }
+    { icon: Mail, label: 'Email', href: 'mailto:yash@example.com', color: 'bg-gradient-to-br from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500' },
+    { icon: Linkedin, label: 'LinkedIn', href: '#', color: 'bg-gradient-to-br from-blue-400 to-violet-500 hover:from-blue-500 hover:to-violet-600' },
+    { icon: Github, label: 'GitHub', href: '#', color: 'bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600' },
+    { icon: Twitter, label: 'Twitter', href: '#', color: 'bg-gradient-to-br from-pink-purple to-purple-500 hover:from-pink-500 hover:to-purple-600' }
   ];
 
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-slate-800">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
+    <section id="contact" className="py-20 bg-gradient-to-b from-purple-900 to-purple-950 relative overflow-hidden">
+      {/* Background texture */}
+      <div className="absolute inset-0 texture-grain opacity-20"></div>
+      
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-8"
+            className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-white to-lavender bg-clip-text text-transparent"
           >
             Let's Build Something Amazing
           </motion.h2>
@@ -64,29 +67,31 @@ export function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto"
+            className="text-xl text-purple-200 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Ready to collaborate on your next project? I'm always excited to tackle new challenges 
-            and explore innovative solutions.
+            Ready to collaborate on your next project? From AI-powered applications to full-stack web solutions, 
+            I'm always excited to tackle new challenges and explore innovative solutions.
           </motion.p>
           
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-slate-50 dark:bg-slate-700 p-8 rounded-xl border border-slate-200 dark:border-slate-600"
+              whileHover={{ y: -5 }}
+              className="bg-white text-purple-900 p-8 rounded-2xl border border-purple-200 card-shadow hover:card-shadow-hover transition-all duration-300"
             >
-              <h3 className="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">
+              <h3 className="text-2xl font-bold mb-4 text-emerald-600">
                 Quick Connect
               </h3>
-              <p className="text-slate-600 dark:text-slate-300 mb-6">
-                Have a project idea or want to discuss opportunities? Let's connect directly.
+              <p className="text-purple-700 mb-6 leading-relaxed">
+                Have a project idea or want to discuss opportunities? Let's connect directly and explore 
+                how we can bring your vision to life.
               </p>
               <Button
                 onClick={() => window.open('mailto:yash@example.com', '_blank')}
-                className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white"
+                className="inline-flex items-center bg-gradient-to-r from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500 text-white shadow-lg"
               >
                 <Mail className="w-5 h-5 mr-2" />
                 Send Email
@@ -98,25 +103,31 @@ export function ContactSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="bg-slate-50 dark:bg-slate-700 p-8 rounded-xl border border-slate-200 dark:border-slate-600"
+              whileHover={{ y: -5 }}
+              className="bg-purple-950 text-white p-8 rounded-2xl border border-purple-600 card-shadow hover:card-shadow-hover transition-all duration-300"
             >
-              <h3 className="text-2xl font-semibold mb-4 text-violet-600 dark:text-violet-400">
+              <h3 className="text-2xl font-bold mb-4 text-lavender">
                 Social Connect
               </h3>
-              <p className="text-slate-600 dark:text-slate-300 mb-6">
-                Follow my journey and connect with me on professional networks.
+              <p className="text-purple-200 mb-6 leading-relaxed">
+                Follow my journey in AI, full-stack development, and tech exploration on professional networks.
               </p>
               <div className="flex justify-center space-x-4">
                 {socialLinks.map((link, index) => (
-                  <Button
+                  <motion.div
                     key={index}
-                    size="icon"
-                    onClick={() => window.open(link.href, '_blank')}
-                    className={`${link.color} text-white p-3 rounded-full transition-colors`}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <link.icon className="w-5 h-5" />
-                    <span className="sr-only">{link.label}</span>
-                  </Button>
+                    <Button
+                      size="icon"
+                      onClick={() => window.open(link.href, '_blank')}
+                      className={`${link.color} text-white p-3 rounded-full transition-all duration-300 shadow-lg`}
+                    >
+                      <link.icon className="w-5 h-5" />
+                      <span className="sr-only">{link.label}</span>
+                    </Button>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -128,16 +139,17 @@ export function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            className="bg-slate-50 dark:bg-slate-700 p-8 rounded-xl border border-slate-200 dark:border-slate-600"
+            whileHover={{ y: -5 }}
+            className="bg-gradient-to-br from-purple-900 to-purple-950 text-white p-8 rounded-2xl border border-purple-600 card-shadow hover:card-shadow-hover transition-all duration-300"
           >
-            <h3 className="text-2xl font-semibold mb-6 text-slate-800 dark:text-slate-100">
+            <h3 className="text-3xl font-bold mb-6 text-lavender">
               Send a Message
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-purple-200 mb-2">
                     Your Name *
                   </label>
                   <Input
@@ -145,12 +157,13 @@ export function ContactSection() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600"
+                    className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl h-12"
+                    placeholder="Enter your name"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-purple-200 mb-2">
                     Your Email *
                   </label>
                   <Input
@@ -158,35 +171,37 @@ export function ContactSection() {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600"
+                    className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl h-12"
+                    placeholder="your.email@example.com"
                     required
                   />
                 </div>
               </div>
               
               <div>
-                <label htmlFor="project" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="project" className="block text-sm font-semibold text-purple-200 mb-2">
                   Project Type
                 </label>
                 <Select
                   value={formData.projectType}
                   onValueChange={(value) => setFormData({ ...formData, projectType: value })}
                 >
-                  <SelectTrigger className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600">
+                  <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white rounded-xl h-12">
                     <SelectValue placeholder="Select project type" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="mobile">Mobile App Development</SelectItem>
-                    <SelectItem value="web">Web Application</SelectItem>
-                    <SelectItem value="fullstack">Full-Stack Solution</SelectItem>
-                    <SelectItem value="consulting">Consulting</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                  <SelectContent className="bg-purple-900 border-purple-600">
+                    <SelectItem value="ai-integration" className="text-white hover:bg-purple-800">AI Integration & LLMs</SelectItem>
+                    <SelectItem value="web" className="text-white hover:bg-purple-800">Web Application</SelectItem>
+                    <SelectItem value="mobile" className="text-white hover:bg-purple-800">Mobile App Development</SelectItem>
+                    <SelectItem value="fullstack" className="text-white hover:bg-purple-800">Full-Stack Solution</SelectItem>
+                    <SelectItem value="consulting" className="text-white hover:bg-purple-800">Technical Consulting</SelectItem>
+                    <SelectItem value="other" className="text-white hover:bg-purple-800">Other</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-semibold text-purple-200 mb-2">
                   Project Details *
                 </label>
                 <Textarea
@@ -194,17 +209,17 @@ export function ContactSection() {
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell me about your project idea, requirements, and timeline..."
-                  className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600"
+                  placeholder="Tell me about your project idea, goals, requirements, and timeline..."
+                  className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl resize-none"
                   required
                 />
               </div>
               
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-semibold py-4 px-8 text-lg transition-all duration-300 hover:scale-105"
+                className="w-full bg-gradient-to-r from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-4 px-8 text-lg transition-all duration-300 hover:scale-105 rounded-xl shadow-lg"
               >
-                Let's Collaborate
+                Let's Collaborate 🚀
               </Button>
             </form>
           </motion.div>

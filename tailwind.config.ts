@@ -16,6 +16,8 @@ export default {
         card: {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
+          alt: "var(--card-alt)",
+          "alt-foreground": "var(--card-alt-foreground)",
         },
         popover: {
           DEFAULT: "var(--popover)",
@@ -61,6 +63,21 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        purple: {
+          50: "#faf7ff",
+          100: "#f3ecff",
+          200: "#e9dcff",
+          300: "#d5b8ff",
+          400: "var(--purple-400)",
+          500: "var(--purple-500)",
+          600: "var(--purple-600)",
+          700: "var(--purple-700)",
+          800: "var(--purple-800)",
+          900: "var(--purple-900)",
+          950: "var(--purple-950)",
+        },
+        lavender: "var(--lavender)",
+        "pink-purple": "var(--pink-purple)",
       },
       keyframes: {
         "accordion-down": {

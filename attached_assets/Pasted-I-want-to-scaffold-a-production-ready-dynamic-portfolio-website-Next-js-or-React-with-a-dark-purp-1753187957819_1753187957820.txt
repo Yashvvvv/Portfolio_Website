@@ -1,0 +1,56 @@
+I want to scaffold a production‑ready, dynamic portfolio website (Next.js or React) with a dark‑purple‑toned theme (accented by white, subtle textures, and occasional black highlights) that tells my story as a fast‑learning, problem‑solving full‑stack explorer. It must be clean, modular, responsive, and easy to maintain. 
+
+### 1. Overall Design
+- **Color Palette:** Deep purple background (#2B0A3D or similar), white text, subtle textured overlays (carbon‑fiber or grain). Buttons and highlights in lavender/pink‑purple gradients. Occasional black cards for contrast.
+- **Layout Style:** Card‑based sections with generous margins/padding. Each “card” floats on the page with a slight drop shadow and 2xl rounded corners. Main container background is purple; card backgrounds alternate between white (with purple text/buttons) and black (with white/purple text).
+- **Animations:** Use Framer Motion for subtle hover lift on cards, fade‑in sections, and tab transitions.
+
+### 2. Components & Sections
+1. **Hero Section**
+   - Full‑width purple background with moving gradient or animated particle texture.
+   - Headline: “Yash Sharma | Full‑Stack Explorer & Problem Solver”
+   - Subline: “From Kotlin Android prototypes to React & Spring Boot web solutions.”
+   - Call‑to‑Action button: “Explore My Journey” (scrolls to timeline).
+
+2. **Interactive Timeline / Tech Map**
+   - Horizontal or vertical scroll. Each node: an icon (Android, React, Spring, AI, Prompt‑Engineering).
+   - Hover or click expands node into a mini‑card: date, tech learned, one‑line “aha” moment.
+   - Visually highlight your prompt‑engineering & Gen‑AI tools (ComfyUI, Stable Diffusion, etc.).
+
+3. **About Me Narrative Card**
+   - Alternating card (white bg): Two paragraphs:
+     - **Journey Start:** Kotlin/Android basics and early prototyping.
+     - **Pivot & Growth:** How React + Spring Boot became my main stack—driven by product‑first thinking and college‑job necessity.
+   - Include a small geeky badge section (“Prompt‑Engineer,” “Gen‑AI Enthusiast,” “Hackathon Addict”).
+
+4. **Projects Section with Dynamic Tabs**
+   - **Tabs:** “Android Projects” and “Web Projects” at the top of this card.
+   - On click, swap content without page reload (animated underline).  
+   - **Project Cards:** For each, show:
+     - Screenshot/GIF placeholder
+     - Title & date
+     - Problem statement
+     - Tech used (with little icons)
+     - Live link or “Coming Soon” badge
+   - Cards arranged in a grid with consistent margins/padding.
+
+5. **Skills & Tech Graph Card**
+   - Filterable tag cloud or icon grid.
+   - Categories: Mobile, Web, AI & LLMs, DevOps.
+   - Click a tag to highlight related case studies above.
+
+6. **Call‑to‑Action Footer**
+   - Dark card (black bg) with white text: “Ready to solve your toughest problem?”  
+   - Buttons: “Let’s Talk” (mailto:) / “Download Résumé”
+
+7. **Global Elements**
+   - **Navbar:** Sticky, transparent on top, switches to purple‑black on scroll. Links to each section.
+   - **Theme Toggle:** Light mode (white bg cards on purple) vs. Dark mode (all black/purple cards).
+   - **README.md:** Instructions on replacing placeholder data (text, images, links), color variables (Tailwind config), and deploying on Replit.
+
+### 3. Tech Stack & Boilerplate
+- **Framework:** Next.js (create‑next‑app) with Tailwind CSS and Framer Motion.
+- **State Management:** React Context or simple useState for tabs/timeline.
+- **Styling:** Tailwind utility classes; configure a custom purple theme in `tailwind.config.js`.
+- **Deployment:** One‑click Replit deploy script in `package.json`.
+- **File Structure:**  

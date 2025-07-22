@@ -3,84 +3,78 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(210, 40%, 2%);
-  --muted: hsl(210, 40%, 96%);
-  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(210, 40%, 2%);
+  --background: hsl(280, 60%, 11%); /* Deep purple background */
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(280, 40%, 20%);
+  --muted-foreground: hsl(280, 20%, 70%);
+  --popover: hsl(280, 60%, 11%);
+  --popover-foreground: hsl(0, 0%, 100%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(210, 40%, 2%);
-  --border: hsl(214.3, 31.8%, 91.4%);
-  --input: hsl(214.3, 31.8%, 91.4%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(210, 40%, 96%);
-  --secondary-foreground: hsl(222.2, 84%, 4.9%);
-  --accent: hsl(210, 40%, 96%);
-  --accent-foreground: hsl(222.2, 84%, 4.9%);
+  --card-foreground: hsl(280, 60%, 11%);
+  --card-alt: hsl(0, 0%, 8%);
+  --card-alt-foreground: hsl(0, 0%, 100%);
+  --border: hsl(280, 30%, 30%);
+  --input: hsl(280, 30%, 25%);
+  --primary: hsl(290, 80%, 65%); /* Lavender purple */
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(280, 40%, 20%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(310, 70%, 75%); /* Pink-purple accent */
+  --accent-foreground: hsl(280, 60%, 11%);
   --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(215, 20.2%, 65.1%);
-  --radius: 0.5rem;
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(290, 80%, 65%);
+  --radius: 1rem; /* Larger border radius for 2xl */
   
-  /* Custom portfolio colors */
-  --slate-50: hsl(210, 40%, 98%);
-  --slate-100: hsl(210, 40%, 96%);
-  --slate-200: hsl(214.3, 31.8%, 91.4%);
-  --slate-300: hsl(213, 27%, 84%);
-  --slate-400: hsl(215.4, 16.3%, 46.9%);
-  --slate-500: hsl(215.4, 16.3%, 46.9%);
-  --slate-600: hsl(215, 25%, 27%);
-  --slate-700: hsl(215, 25%, 27%);
-  --slate-800: hsl(215, 28%, 17%);
-  --slate-900: hsl(222.2, 84%, 4.9%);
-  --blue-400: hsl(213, 94%, 68%);
-  --blue-500: hsl(207, 90%, 54%);
-  --blue-600: hsl(207, 90%, 54%);
-  --violet-400: hsl(262, 80%, 70%);
-  --violet-500: hsl(262, 80%, 65%);
-  --violet-600: hsl(262, 80%, 60%);
+  /* Custom purple theme colors */
+  --purple-bg: hsl(280, 60%, 11%); /* Main background */
+  --purple-950: hsl(280, 60%, 8%);
+  --purple-900: hsl(280, 60%, 11%);
+  --purple-800: hsl(280, 50%, 15%);
+  --purple-700: hsl(280, 40%, 20%);
+  --purple-600: hsl(280, 40%, 30%);
+  --purple-500: hsl(290, 80%, 65%);
+  --purple-400: hsl(300, 80%, 70%);
+  --purple-300: hsl(310, 70%, 75%);
+  --lavender: hsl(290, 80%, 65%);
+  --pink-purple: hsl(310, 70%, 75%);
 }
 
 .dark {
-  --background: hsl(222.2, 84%, 4.9%);
-  --foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217.2, 32.6%, 17.5%);
-  --muted-foreground: hsl(215, 20.2%, 65.1%);
-  --popover: hsl(222.2, 84%, 4.9%);
-  --popover-foreground: hsl(210, 40%, 98%);
-  --card: hsl(222.2, 84%, 4.9%);
-  --card-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217.2, 32.6%, 17.5%);
-  --input: hsl(217.2, 32.6%, 17.5%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(217.2, 32.6%, 17.5%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --accent: hsl(217.2, 32.6%, 17.5%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --ring: hsl(215, 20.2%, 65.1%);
+  --background: hsl(280, 60%, 8%); /* Even darker purple for dark mode */
+  --foreground: hsl(0, 0%, 100%);
+  --muted: hsl(280, 50%, 15%);
+  --muted-foreground: hsl(280, 30%, 60%);
+  --popover: hsl(280, 60%, 8%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --card: hsl(0, 0%, 8%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --card-alt: hsl(280, 60%, 11%);
+  --card-alt-foreground: hsl(0, 0%, 100%);
+  --border: hsl(280, 40%, 20%);
+  --input: hsl(280, 40%, 20%);
+  --primary: hsl(290, 80%, 65%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(280, 50%, 15%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(310, 70%, 75%);
+  --accent-foreground: hsl(0, 0%, 8%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(290, 80%, 65%);
   
-  /* Custom dark mode colors */
-  --slate-50: hsl(222.2, 84%, 4.9%);
-  --slate-100: hsl(215, 28%, 17%);
-  --slate-200: hsl(217.2, 32.6%, 17.5%);
-  --slate-300: hsl(215, 20.2%, 65.1%);
-  --slate-400: hsl(215, 20.2%, 65.1%);
-  --slate-500: hsl(215, 20.2%, 65.1%);
-  --slate-600: hsl(210, 40%, 96%);
-  --slate-700: hsl(217.2, 32.6%, 17.5%);
-  --slate-800: hsl(222.2, 84%, 4.9%);
-  --slate-900: hsl(210, 40%, 2%);
-  --blue-400: hsl(213, 94%, 68%);
-  --blue-500: hsl(207, 90%, 54%);
-  --blue-600: hsl(207, 90%, 54%);
-  --violet-400: hsl(262, 80%, 70%);
-  --violet-500: hsl(262, 80%, 65%);
-  --violet-600: hsl(262, 80%, 60%);
+  /* Custom dark mode purple colors */
+  --purple-bg: hsl(280, 60%, 8%);
+  --purple-950: hsl(280, 70%, 5%);
+  --purple-900: hsl(280, 60%, 8%);
+  --purple-800: hsl(280, 50%, 12%);
+  --purple-700: hsl(280, 40%, 15%);
+  --purple-600: hsl(280, 40%, 25%);
+  --purple-500: hsl(290, 80%, 65%);
+  --purple-400: hsl(300, 80%, 70%);
+  --purple-300: hsl(310, 70%, 75%);
+  --lavender: hsl(290, 80%, 70%);
+  --pink-purple: hsl(310, 70%, 80%);
 }
 
 @layer base {
@@ -118,6 +112,24 @@
   .animate-bounce-gentle {
     animation: bounceGentle 2s infinite;
   }
+  
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease infinite;
+  }
+  
+  .card-shadow {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .card-shadow-hover {
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+  }
+  
+  .texture-grain {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.15) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
 }
 
 @keyframes float {
@@ -133,6 +145,11 @@
 @keyframes bounceGentle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* Custom scrollbar */
