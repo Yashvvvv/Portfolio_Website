@@ -1,0 +1,38 @@
+I want to generate a modern, dynamic portfolio website in React (or Next.js) that tells the story of my journey as a versatile, product‑first developer and explorer. Here’s what it must include:
+
+1. **Hero Section**  
+   - Bold headline: “Yash Sharma | Full‑Stack Explorer & Problem Solver”  
+   - Sub‑headline: “From Kotlin native Android prototypes to React + Spring Boot web apps—building solutions that matter.”  
+   - A dynamic background animation or interactive tech‑stack cloud.
+
+2. **Interactive Timeline / Tech Map**  
+   - A scrolling or hoverable timeline showing when I learned Kotlin (Android), then React, then Spring Boot.  
+   - Each node shows a tooltip with project name, date, and one‑sentence takeaway.
+
+3. **About Me Narrative**  
+   - A two‑paragraph story:  
+     - P1: “I launched my first mobile prototype in Kotlin—learned to debug hardware integration…”  
+     - P2: “I pivoted to React + Spring Boot to build scalable web solutions because jobs demanded full‑stack skills… fast learner, always exploring.”
+
+4. **Case Studies (Grouped by Problem)**  
+   - For each study:  
+     - **Problem Statement** (“How might we…?”)  
+     - **Tech Exploration** (“Tried Kotlin, then React/Spring…”).  
+     - **Solution Demo** (animated GIF or code snippet).  
+     - **Key Learnings & Impact**.
+
+5. **Skills & Tech Graph**  
+   - A filterable grid or interactive chart of my skills: Kotlin, Android SDK, React, Next.js, Spring Boot, REST, Git, CI/CD, etc.  
+   - Ability to filter by “Mobile” vs. “Web” vs. “Full‑Stack”.
+
+6. **Call to Action**  
+   - Button: “Let’s Collaborate” linking to mailto or contact form.  
+   - Footer with social links.
+
+7. **Design & Styling**  
+   - Use Tailwind CSS for styling, Framer Motion for animations.  
+   - Responsive, dark/light mode toggle.
+
+Please scaffold out the React (or Next.js) project structure, write all key components, include placeholder data for my projects, and add comments where I should drop in real content. Make it easy to clone on Replit, with instructions in the README on how to deploy and edit.
+
+Generate the full codebase and a README that explains how to customize each section for my story, tech‑map data, and case‑study content.
