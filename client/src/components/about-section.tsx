@@ -20,9 +20,7 @@ export function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
-              About
-            </p>
+            <div className="w-8 h-[2px] mb-5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
             <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)] mb-6">
               Who I am
             </h2>
@@ -61,24 +59,21 @@ export function AboutSection() {
             className="space-y-4"
           >
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-3">
-              {STATS.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.2 + i * 0.06 }}
-                  className="rounded-xl border p-5"
-                  style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
-                >
-                  <div className="font-display text-3xl font-bold text-[var(--text-heading)] mb-1">
-                    {s.value}
-                  </div>
-                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
-                </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22, delay: 0.15 }}
+              className="flex flex-wrap gap-x-8 gap-y-4 py-5 border-y"
+              style={{ borderColor: 'var(--border-subtle)' }}
+            >
+              {STATS.map((s) => (
+                <div key={s.label}>
+                  <div className="font-display text-3xl font-bold leading-none text-[var(--text-heading)]">{s.value}</div>
+                  <div className="text-xs mt-1.5" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
+                </div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Systems philosophy card */}
             <motion.div
@@ -89,7 +84,7 @@ export function AboutSection() {
               className="rounded-xl border p-5"
               style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
             >
-              <p className="text-base font-mono uppercase tracking-wide mb-3" style={{ color: 'var(--accent)' }}>
+              <p className="text-xs font-mono mb-3" style={{ color: 'var(--accent)' }}>
                 How I work
               </p>
               <ul className="space-y-2">
@@ -116,7 +111,7 @@ export function AboutSection() {
               className="rounded-xl border p-5"
               style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
             >
-              <p className="text-base font-mono uppercase tracking-wide mb-3" style={{ color: 'var(--pink-purple)' }}>
+              <p className="text-xs font-mono mb-3" style={{ color: 'var(--pink-purple)' }}>
                 Find me
               </p>
               <div className="space-y-1.5 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>

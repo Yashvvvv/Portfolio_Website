@@ -19,11 +19,24 @@ const scrollTo = (href: string, close?: () => void) => {
 export function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState('home');
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handle, { passive: true });
     return () => window.removeEventListener('scroll', handle);
+  }, []);
+
+  useEffect(() => {
+    const els = NAV_ITEMS.map((item) => document.querySelector(item.href)).filter(Boolean) as Element[];
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+      },
+      { threshold: 0.25, rootMargin: '-10% 0px -60% 0px' },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
 
   return (
@@ -48,22 +61,30 @@ export function Navigation() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            {NAV_ITEMS.map((item, i) => (
-              <motion.button
-                key={item.href}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-                onClick={() => scrollTo(item.href)}
-                className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors relative group"
-              >
-                {item.label}
-                <span
-                  className="absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
-                  style={{ backgroundColor: 'var(--accent)' }}
-                />
-              </motion.button>
-            ))}
+            {NAV_ITEMS.map((item, i) => {
+              const isActive = active === item.href.slice(1);
+              return (
+                <motion.button
+                  key={item.href}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 24, delay: i * 0.06 }}
+                  onClick={() => scrollTo(item.href)}
+                  className="text-sm font-medium transition-colors relative pb-0.5"
+                  style={{ color: isActive ? 'var(--text-heading)' : 'var(--text-muted)' }}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-0.5 left-0 right-0 h-px"
+                      style={{ backgroundColor: 'var(--accent)' }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
           </div>
 
           {/* Mobile toggle */}
@@ -84,7 +105,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             className="md:hidden border-t overflow-hidden"
             style={{
               backgroundColor: 'var(--surface)',
@@ -96,7 +117,8 @@ export function Navigation() {
                 <button
                   key={item.href}
                   onClick={() => scrollTo(item.href, () => setOpen(false))}
-                  className="text-left text-sm font-medium py-2.5 text-[var(--text-body)] hover:text-[var(--accent)] transition-colors"
+                  className="text-left text-sm font-medium py-2.5 transition-colors"
+                  style={{ color: active === item.href.slice(1) ? 'var(--accent)' : 'var(--text-body)' }}
                 >
                   {item.label}
                 </button>

@@ -79,9 +79,7 @@ export function TimelineSection() {
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
-            Experience
-          </p>
+          <div className="w-8 h-[2px] mb-5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
           <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)]">
             Background
           </h2>
@@ -108,7 +106,8 @@ export function TimelineSection() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 22, delay: i * 0.08 }}
+                  whileHover={{ y: -2 }}
                   className="relative md:pl-16"
                 >
                   {/* Icon dot */}
@@ -193,7 +192,7 @@ export function TimelineSection() {
           className="mt-14 pt-8 border-t"
           style={{ borderColor: 'var(--border-subtle)' }}
         >
-          <p className="text-base font-mono tracking-widest uppercase mb-5" style={{ color: 'var(--accent)' }}>
+          <p className="text-xs font-mono mb-5" style={{ color: 'var(--accent)' }}>
             Achievements
           </p>
           <div className="grid sm:grid-cols-3 gap-4">

@@ -228,9 +228,7 @@ export function ProjectsSection() {
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
-          <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
-            Work
-          </p>
+          <div className="w-8 h-[2px] mb-5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
           <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)]">
             Projects
           </h2>
@@ -283,7 +281,8 @@ export function ProjectsSection() {
                 key={p.title}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.07 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 22, delay: i * 0.07 }}
+                whileHover={{ y: -2 }}
               >
                 <ProjectCard p={p} />
               </motion.div>

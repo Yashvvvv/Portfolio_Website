@@ -40,9 +40,7 @@ export function SkillsSection() {
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
-          <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
-            Stack
-          </p>
+          <div className="w-8 h-[2px] mb-5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
           <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)]">
             Skills & Tools
           </h2>
@@ -59,7 +57,8 @@ export function SkillsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: ci * 0.07 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22, delay: ci * 0.07 }}
+              whileHover={{ y: -2 }}
               className="rounded-xl border p-5"
               style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
             >
@@ -97,7 +96,7 @@ export function SkillsSection() {
           className="mt-8 rounded-xl border p-5 flex flex-wrap items-center gap-4"
           style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
         >
-          <span className="text-base font-mono uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+          <span className="text-xs font-mono" style={{ color: 'var(--accent)' }}>
             Certified
           </span>
           <span className="text-sm" style={{ color: 'var(--text-body)' }}>

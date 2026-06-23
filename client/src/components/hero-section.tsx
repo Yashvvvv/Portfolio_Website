@@ -2,6 +2,21 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Mail } from 'lucide-react';
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 18, filter: 'blur(6px)' },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { type: 'spring' as const, stiffness: 280, damping: 22 },
+  },
+};
+
 const CODE_LINES = [
   // Android
   { indent: 0, tokens: [{ t: '// Android', c: 'text-[var(--text-muted)]' }] },
@@ -84,11 +99,9 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
 
           {/* Left */}
-          <div>
+          <motion.div variants={container} initial="hidden" animate="show">
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              variants={item}
               className="text-base font-mono tracking-widest uppercase mb-5 select-none"
               style={{ color: 'var(--accent)' }}
             >
@@ -96,9 +109,7 @@ export function HeroSection() {
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              variants={item}
               className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-[var(--text-heading)] mb-6"
             >
               Yash
@@ -107,9 +118,7 @@ export function HeroSection() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              variants={item}
               className="text-lg leading-relaxed mb-8 max-w-[48ch]"
               style={{ color: 'var(--text-body)' }}
             >
@@ -119,9 +128,7 @@ export function HeroSection() {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              variants={item}
               className="flex flex-wrap gap-2 mb-10"
             >
               {TECH_TAGS.map((tag) => (
@@ -140,9 +147,7 @@ export function HeroSection() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              variants={item}
               className="flex flex-wrap gap-3"
             >
               <Button
@@ -178,13 +183,13 @@ export function HeroSection() {
                 Get in touch
               </Button>
             </motion.div>
-          </div>
+          </motion.div>
 
           {/* Right — QA pipeline terminal */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
+            initial={{ opacity: 0, x: 30, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            transition={{ type: 'spring', stiffness: 220, damping: 22, delay: 0.42 }}
             className="hidden lg:block"
           >
             <div

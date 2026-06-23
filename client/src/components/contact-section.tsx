@@ -56,9 +56,7 @@ export function ContactSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
-              Contact
-            </p>
+            <div className="w-8 h-[2px] mb-5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
             <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)] mb-5">
               Let's work together
             </h2>
