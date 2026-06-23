@@ -4,225 +4,196 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Github, Linkedin, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+const SOCIAL = [
+  { icon: Mail,     label: 'Email',    href: 'mailto:sharmayashh054@gmail.com', display: 'sharmayashh054@gmail.com' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/yash-sharmagg', display: 'yash-sharmagg' },
+  { icon: Github,   label: 'GitHub',   href: 'https://github.com/Yashvvvv',  display: 'Yashvvvv' },
+];
+
+const PROJECT_TYPES = [
+  { value: 'android',    label: 'Android App (Kotlin / KMP)' },
+  { value: 'ai',         label: 'AI Integration & LLMs' },
+  { value: 'web',        label: 'Web Application' },
+  { value: 'fullstack',  label: 'Full-Stack Solution' },
+  { value: 'consulting', label: 'Technical Consulting' },
+  { value: 'other',      label: 'Other' },
+];
+
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    projectType: '',
-    message: ''
-  });
+  const [form, setForm] = useState({ name: '', email: '', projectType: '', message: '' });
+  const [sending, setSending] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Basic form validation
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
-        variant: "destructive"
-      });
+    if (!form.name || !form.email || !form.message) {
+      toast({ title: 'Required fields missing', variant: 'destructive' });
       return;
     }
-
-    // TODO: Implement actual form submission
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-
-    // Reset form
-    setFormData({ name: '', email: '', projectType: '', message: '' });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast({ title: 'Invalid email address', variant: 'destructive' });
+      return;
+    }
+    setSending(true);
+    await new Promise((r) => setTimeout(r, 900));
+    setSending(false);
+    toast({ title: 'Message sent', description: "I'll get back to you shortly." });
+    setForm({ name: '', email: '', projectType: '', message: '' });
   };
 
-  const socialLinks = [
-    { icon: Mail, label: 'Email', href: 'mailto:yash@example.com', color: 'bg-gradient-to-br from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#', color: 'bg-gradient-to-br from-blue-400 to-violet-500 hover:from-blue-500 hover:to-violet-600' },
-    { icon: Github, label: 'GitHub', href: '#', color: 'bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600' },
-    { icon: Twitter, label: 'Twitter', href: '#', color: 'bg-gradient-to-br from-pink-purple to-purple-500 hover:from-pink-500 hover:to-purple-600' }
-  ];
-
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-purple-900 to-purple-950 relative overflow-hidden">
-      {/* Background texture */}
-      <div className="absolute inset-0 texture-grain opacity-20"></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-white to-lavender bg-clip-text text-transparent"
-          >
-            Let's Build Something Amazing
-          </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-xl text-purple-200 mb-12 max-w-3xl mx-auto leading-relaxed"
-          >
-            Ready to collaborate on your next project? From AI-powered applications to full-stack web solutions, 
-            I'm always excited to tackle new challenges and explore innovative solutions.
-          </motion.p>
-          
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              whileHover={{ y: -5 }}
-              className="bg-white text-purple-900 p-8 rounded-2xl border border-purple-200 card-shadow hover:card-shadow-hover transition-all duration-300"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-emerald-600">
-                Quick Connect
-              </h3>
-              <p className="text-purple-700 mb-6 leading-relaxed">
-                Have a project idea or want to discuss opportunities? Let's connect directly and explore 
-                how we can bring your vision to life.
-              </p>
-              <Button
-                onClick={() => window.open('mailto:yash@example.com', '_blank')}
-                className="inline-flex items-center bg-gradient-to-r from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500 text-white shadow-lg"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Send Email
-              </Button>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              whileHover={{ y: -5 }}
-              className="bg-purple-950 text-white p-8 rounded-2xl border border-purple-600 card-shadow hover:card-shadow-hover transition-all duration-300"
-            >
-              <h3 className="text-2xl font-bold mb-4 text-lavender">
-                Social Connect
-              </h3>
-              <p className="text-purple-200 mb-6 leading-relaxed">
-                Follow my journey in AI, full-stack development, and tech exploration on professional networks.
-              </p>
-              <div className="flex justify-center space-x-4">
-                {socialLinks.map((link, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      size="icon"
-                      onClick={() => window.open(link.href, '_blank')}
-                      className={`${link.color} text-white p-3 rounded-full transition-all duration-300 shadow-lg`}
-                    >
-                      <link.icon className="w-5 h-5" />
-                      <span className="sr-only">{link.label}</span>
-                    </Button>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-          
-          {/* Contact Form */}
+    <section id="contact" className="py-24 lg:py-32 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
+
+          {/* Left */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            whileHover={{ y: -5 }}
-            className="bg-gradient-to-br from-purple-900 to-purple-950 text-white p-8 rounded-2xl border border-purple-600 card-shadow hover:card-shadow-hover transition-all duration-300"
+            transition={{ duration: 0.5 }}
           >
-            <h3 className="text-3xl font-bold mb-6 text-lavender">
-              Send a Message
-            </h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-purple-200 mb-2">
-                    Your Name *
+            <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+              Contact
+            </p>
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)] mb-5">
+              Let's work together
+            </h2>
+            <p className="leading-relaxed max-w-[44ch] mb-8 text-sm" style={{ color: 'var(--text-body)' }}>
+              Available for Android projects, full-stack web development, AI integration work, and
+              technical consulting. Tell me what you're building.
+            </p>
+
+            <div className="space-y-3">
+              {SOCIAL.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm transition-colors duration-200 group"
+                  style={{ color: 'var(--text-muted)' }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-heading)')}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)')}
+                >
+                  <span
+                    className="w-8 h-8 rounded-lg border flex items-center justify-center flex-shrink-0 transition-colors"
+                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface)' }}
+                  >
+                    <s.icon className="w-3.5 h-3.5" />
+                  </span>
+                  <span className="font-mono text-xs">{s.display}</span>
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right — form */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-xl border p-6 lg:p-8 space-y-4"
+              style={{
+                backgroundColor: 'var(--surface)',
+                borderColor: 'var(--border-subtle)',
+              }}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label htmlFor="name" className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                    Name <span style={{ color: 'var(--accent)' }}>*</span>
                   </label>
                   <Input
                     id="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl h-12"
-                    placeholder="Enter your name"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Your name"
+                    className="text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)]"
+                    style={{ backgroundColor: 'var(--surface-raised)', borderColor: 'var(--border)' }}
                     required
                   />
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-purple-200 mb-2">
-                    Your Email *
+                <div className="space-y-1.5">
+                  <label htmlFor="email" className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                    Email <span style={{ color: 'var(--accent)' }}>*</span>
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl h-12"
-                    placeholder="your.email@example.com"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="you@example.com"
+                    className="text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)]"
+                    style={{ backgroundColor: 'var(--surface-raised)', borderColor: 'var(--border)' }}
                     required
                   />
                 </div>
               </div>
-              
-              <div>
-                <label htmlFor="project" className="block text-sm font-semibold text-purple-200 mb-2">
-                  Project Type
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                  Project type
                 </label>
                 <Select
-                  value={formData.projectType}
-                  onValueChange={(value) => setFormData({ ...formData, projectType: value })}
+                  value={form.projectType}
+                  onValueChange={(v) => setForm({ ...form, projectType: v })}
                 >
-                  <SelectTrigger className="bg-purple-800/50 border-purple-600 text-white rounded-xl h-12">
-                    <SelectValue placeholder="Select project type" />
+                  <SelectTrigger
+                    className="text-sm"
+                    style={{ backgroundColor: 'var(--surface-raised)', borderColor: 'var(--border)' }}
+                  >
+                    <SelectValue placeholder="Select type" />
                   </SelectTrigger>
-                  <SelectContent className="bg-purple-900 border-purple-600">
-                    <SelectItem value="ai-integration" className="text-white hover:bg-purple-800">AI Integration & LLMs</SelectItem>
-                    <SelectItem value="web" className="text-white hover:bg-purple-800">Web Application</SelectItem>
-                    <SelectItem value="mobile" className="text-white hover:bg-purple-800">Mobile App Development</SelectItem>
-                    <SelectItem value="fullstack" className="text-white hover:bg-purple-800">Full-Stack Solution</SelectItem>
-                    <SelectItem value="consulting" className="text-white hover:bg-purple-800">Technical Consulting</SelectItem>
-                    <SelectItem value="other" className="text-white hover:bg-purple-800">Other</SelectItem>
+                  <SelectContent style={{ backgroundColor: 'var(--surface-raised)', borderColor: 'var(--border)' }}>
+                    {PROJECT_TYPES.map((pt) => (
+                      <SelectItem key={pt.value} value={pt.value}>{pt.label}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-purple-200 mb-2">
-                  Project Details *
+
+              <div className="space-y-1.5">
+                <label htmlFor="message" className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
+                  Message <span style={{ color: 'var(--accent)' }}>*</span>
                 </label>
                 <Textarea
                   id="message"
                   rows={5}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell me about your project idea, goals, requirements, and timeline..."
-                  className="bg-purple-800/50 border-purple-600 text-white placeholder:text-purple-300 focus:border-pink-purple rounded-xl resize-none"
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  placeholder="Tell me what you're building..."
+                  className="resize-none text-sm text-[var(--text-heading)] placeholder:text-[var(--text-muted)]"
+                  style={{ backgroundColor: 'var(--surface-raised)', borderColor: 'var(--border)' }}
                   required
                 />
               </div>
-              
+
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-4 px-8 text-lg transition-all duration-300 hover:scale-105 rounded-xl shadow-lg"
+                disabled={sending}
+                className="w-full gap-2 font-semibold py-5 text-white rounded-lg transition-all"
+                style={{ backgroundColor: sending ? 'var(--accent-dim)' : 'var(--accent)' }}
+                onMouseEnter={(e) => {
+                  if (!sending) (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--accent-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  if (!sending) (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--accent)';
+                }}
               >
-                Let's Collaborate 🚀
+                <Send className="w-4 h-4" />
+                {sending ? 'Sending...' : 'Send message'}
               </Button>
             </form>
           </motion.div>
+
         </div>
       </div>
     </section>

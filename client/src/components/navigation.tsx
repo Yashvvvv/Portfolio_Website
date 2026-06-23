@@ -1,122 +1,110 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Moon, Sun, Menu, X } from 'lucide-react';
-import { useTheme } from './theme-provider';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const NAV_ITEMS = [
+  { href: '#home', label: 'Home' },
+  { href: '#journey', label: 'Journey' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' },
+];
+
+const scrollTo = (href: string, close?: () => void) => {
+  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+  close?.();
+};
+
 export function Navigation() {
-  const { theme, setTheme } = useTheme();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handle = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handle, { passive: true });
+    return () => window.removeEventListener('scroll', handle);
   }, []);
 
-  const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#journey', label: 'Journey' },
-    { href: '#about', label: 'About' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#contact', label: 'Contact' },
-  ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMenuOpen(false);
-  };
-
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-purple-900/90 backdrop-blur-md border-b border-purple-700/50' 
-        : 'bg-transparent'
-    }`}>
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="font-bold text-2xl bg-gradient-to-r from-lavender to-pink-purple bg-clip-text text-transparent cursor-pointer"
-            onClick={() => scrollToSection('#home')}
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      style={{
+        backgroundColor: scrolled ? 'hsl(255 28% 7% / 0.92)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <button
+            onClick={() => scrollTo('#home')}
+            className="font-display font-bold text-xl text-[var(--text-heading)] tracking-tight hover:text-[var(--accent)] transition-colors"
+            aria-label="Back to top"
           >
             YS
-          </motion.div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item, index) => (
+          </button>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {NAV_ITEMS.map((item, i) => (
               <motion.button
                 key={item.href}
-                initial={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => scrollToSection(item.href)}
-                className="hover:text-lavender transition-colors text-white/90 font-medium relative group"
+                transition={{ delay: i * 0.07 }}
+                onClick={() => scrollTo(item.href)}
+                className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors relative group"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-lavender to-pink-purple transition-all duration-300 group-hover:w-full"></span>
+                <span
+                  className="absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
+                  style={{ backgroundColor: 'var(--accent)' }}
+                />
               </motion.button>
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              className="bg-purple-800/50 border-purple-600 hover:bg-purple-700/50 text-white"
-            >
-              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="md:hidden bg-purple-800/50 border-purple-600 hover:bg-purple-700/50 text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
-          </div>
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden p-2 rounded-md text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+          >
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 bg-purple-900/95 backdrop-blur-md rounded-2xl border border-purple-700/50"
-            >
-              <div className="p-6 space-y-4">
-                {navItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left hover:text-lavender transition-colors text-white/90 font-medium py-2"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden border-t overflow-hidden"
+            style={{
+              backgroundColor: 'var(--surface)',
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
+            <div className="px-6 py-4 flex flex-col gap-1">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.href}
+                  onClick={() => scrollTo(item.href, () => setOpen(false))}
+                  className="text-left text-sm font-medium py-2.5 text-[var(--text-body)] hover:text-[var(--accent)] transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

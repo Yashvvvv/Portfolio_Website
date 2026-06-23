@@ -1,276 +1,296 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { ExternalLink, Github } from 'lucide-react';
+
+interface Project {
+  title: string;
+  year: string;
+  status: string;
+  description: string;
+  highlights: string[];
+  stack: string[];
+  github: string | null;
+  live: string | null;
+}
+
+const WEB_PROJECTS: Project[] = [
+  {
+    title: 'VenueSync',
+    year: '2024',
+    status: 'Live',
+    description:
+      'OAuth2/OIDC-secured event ticketing platform with Keycloak RBAC, real-time QR check-in, and a race-condition-proof concurrency engine.',
+    highlights: [
+      'Keycloak-backed OAuth2/OIDC auth with role-based access control; deployed via Cloudflare Pages + AWS EC2 GitHub Actions pipeline.',
+      'Race-condition-proof ticketing engine preventing overselling across 100+ concurrent purchases.',
+      'QR code generation with Google ZXing and real-time scanner — reduced manual check-ins by 95% with sub-100ms responses.',
+    ],
+    stack: ['Spring Boot', 'JPA', 'OAuth2/OIDC', 'Keycloak', 'PostgreSQL', 'React', 'TypeScript', 'Docker', 'AWS EC2'],
+    github: 'https://github.com/Yashvvvv',
+    live: 'https://venuesync.pages.dev/',
+  },
+  {
+    title: 'PharmaLens',
+    year: '2024',
+    status: 'Production',
+    description:
+      'AI pharmaceutical intelligence platform — medicine recognition via reactive OCR, pharmacy locator with geo-search, and secure multi-tier API.',
+    highlights: [
+      'Google Gemini 1.5 Flash + WebFlux reactive OCR pipeline with <100ms latency; reduced API calls by 70% while supporting 500+ concurrent users.',
+      'JWT authentication with 4-tier RBAC, BCrypt encryption, and IP-based rate limiting — blocked 95% of malicious traffic.',
+      'Pharmacy locator using Google Maps API with 50km geo-search and AI-based availability prediction at 85% accuracy.',
+    ],
+    stack: ['Spring Boot', 'Google Gemini API', 'WebFlux', 'PostgreSQL', 'JWT', 'Spring Security', 'Google Maps API'],
+    github: 'https://github.com/Yashvvvv',
+    live: null,
+  },
+  {
+    title: 'Hospital Management System',
+    year: '2023',
+    status: 'Complete',
+    description:
+      'Full-stack hospital management platform with secured REST APIs, JWT-based RBAC, and a React + TypeScript frontend.',
+    highlights: [
+      'Spring Boot + JPA/Hibernate backend with JWT + RBAC — blocked 90% unauthorized access.',
+      '99.9% uptime under 500+ concurrent users in load testing.',
+      'React + TypeScript frontend with full CRUD across patient, doctor, and appointment management.',
+    ],
+    stack: ['Spring Boot', 'PostgreSQL', 'JWT', 'Spring Security', 'JUnit', 'Maven', 'React', 'TypeScript'],
+    github: 'https://github.com/Yashvvvv',
+    live: null,
+  },
+];
+
+const ANDROID_PROJECTS: Project[] = [
+  {
+    title: 'GCET Connect',
+    year: '2024',
+    status: 'Complete',
+    description:
+      'AI-powered college assistant chatbot for Android. Integrates Google Gemini LLM with a custom Levenshtein-distance matching engine for 95% query resolution accuracy.',
+    highlights: [
+      'Google Gemini API integration with prompt engineering achieving 95% query resolution accuracy.',
+      'MVVM architecture with Kotlin Coroutines for async processing and Room for persistent offline storage.',
+      'Custom Levenshtein-distance algorithm for precise query matching when LLM confidence is low.',
+    ],
+    stack: ['Kotlin', 'Jetpack Compose', 'Google Gemini API', 'Room', 'MVVM', 'Coroutines', 'Material Design 3'],
+    github: 'https://github.com/Yashvvvv',
+    live: null,
+  },
+  {
+    title: 'JetAReader (ReadSphere)',
+    year: '2024',
+    status: 'Complete',
+    description:
+      'Full-featured Android book reading companion with Google Books API, Firebase real-time sync, and a rich reading statistics dashboard.',
+    highlights: [
+      'Google Books API via Retrofit + Coroutines for fast search and detailed book metadata.',
+      'Firebase Authentication + Cloud Firestore for real-time sync and offline storage across large personal libraries.',
+      'Reading progress tracking, categorized shelves, personal notes, star ratings, and statistics dashboard in Material Design 3.',
+    ],
+    stack: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Firebase Auth', 'Cloud Firestore', 'Retrofit', 'Coroutines', 'MVVM', 'Google Books API'],
+    github: 'https://github.com/Yashvvvv',
+    live: null,
+  },
+  {
+    title: 'MedAssist',
+    year: '2024',
+    status: 'Complete',
+    description:
+      'Full-stack AI medical recognition app — Android + Spring Boot + PostgreSQL, with Claude API, ML Kit image recognition, and Google Maps pharmacy locator.',
+    highlights: [
+      'Android (Kotlin + Jetpack Compose) + Spring Boot + PostgreSQL full-stack with Claude API and ML Kit image recognition.',
+      'JWT + Spring Security RBAC with optimized Spring Data JPA queries and Swagger-documented REST APIs.',
+      'Google Maps API integration for pharmacy location lookup from recognized medicine data.',
+    ],
+    stack: ['Kotlin', 'Jetpack Compose', 'Spring Boot', 'PostgreSQL', 'JWT', 'Claude API', 'ML Kit', 'Google Maps API', 'MVVM'],
+    github: 'https://github.com/Yashvvvv',
+    live: null,
+  },
+];
+
+const STATUS_STYLE: Record<string, { color: string; bg: string; border: string }> = {
+  Live:       { color: '#34d399', bg: 'rgba(52,211,153,0.08)',  border: 'rgba(52,211,153,0.3)' },
+  Production: { color: '#60a5fa', bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.3)' },
+  Complete:   { color: 'var(--text-muted)', bg: 'var(--surface-raised)', border: 'var(--border)' },
+};
+
+function ProjectCard({ p }: { p: Project }) {
+  const ss = STATUS_STYLE[p.status] ?? STATUS_STYLE.Complete;
+  return (
+    <div
+      className="rounded-xl border p-6 lg:p-7 transition-colors duration-200"
+      style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)')}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-subtle)')}
+    >
+      {/* Header */}
+      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+        <div>
+          <h3 className="font-display font-bold text-lg text-[var(--text-heading)] mb-0.5">
+            {p.title}
+          </h3>
+          <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>{p.year}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className="text-xs font-medium px-2.5 py-1 rounded-full border"
+            style={{ color: ss.color, backgroundColor: ss.bg, borderColor: ss.border }}
+          >
+            {p.status}
+          </span>
+          {p.github && (
+            <a
+              href={p.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View on GitHub"
+              className="w-7 h-7 rounded border flex items-center justify-center transition-colors"
+              style={{ borderColor: 'var(--border)', color: 'var(--text-muted)', backgroundColor: 'var(--surface-raised)' }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--accent)';
+                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--accent)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)';
+              }}
+            >
+              <Github className="w-3.5 h-3.5" />
+            </a>
+          )}
+          {p.live && (
+            <Button
+              size="sm"
+              className="gap-1.5 text-xs h-7 px-3 text-white"
+              style={{ backgroundColor: 'var(--accent)' }}
+              onClick={() => window.open(p.live!, '_blank')}
+            >
+              Live
+              <ExternalLink className="w-3 h-3" />
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text-body)' }}>
+        {p.description}
+      </p>
+
+      {/* Highlights */}
+      <ul className="space-y-2 mb-5">
+        {p.highlights.map((h, i) => (
+          <li key={i} className="text-sm leading-relaxed flex gap-2.5" style={{ color: 'var(--text-body)' }}>
+            <span
+              className="mt-2 w-1 h-1 rounded-full flex-shrink-0"
+              style={{ backgroundColor: 'var(--accent)' }}
+            />
+            {h}
+          </li>
+        ))}
+      </ul>
+
+      {/* Stack */}
+      <div className="flex flex-wrap gap-1.5 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+        {p.stack.map((t) => (
+          <span
+            key={t}
+            className="text-xs font-mono px-2.5 py-1 rounded border"
+            style={{
+              color: 'var(--text-muted)',
+              borderColor: 'var(--border-subtle)',
+              backgroundColor: 'var(--surface-raised)',
+            }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ProjectsSection() {
-  const [activeTab, setActiveTab] = useState('android');
-
-  const androidProjects = [
-    {
-      title: 'Smart Sensor Mobile App',
-      date: '2022',
-      problem: 'How might we create an intuitive mobile interface for complex hardware sensor integration that non-technical users can easily understand and interact with?',
-      exploration: 'Started with native Android development using Kotlin, explored sensor APIs, implemented real-time data visualization, and created custom UI components for hardware interaction.',
-      impact: 'Learned the importance of user-centric design in technical applications. The app improved data collection efficiency by 40% and taught me how to bridge the gap between complex hardware and simple user experiences.',
-      mockup: '📱',
-      mockupTitle: 'Sensor Dashboard',
-      mockupSubtitle: 'Real-time Data Visualization',
-      technologies: ['Kotlin', 'Android SDK', 'Sensor APIs', 'Custom UI', 'Hardware Integration'],
-      liveLink: null,
-      status: 'Prototype Complete'
-    },
-    {
-      title: 'IoT Device Controller',
-      date: '2022',
-      problem: 'How might we simplify IoT device management through an intuitive mobile interface that works across different hardware protocols?',
-      exploration: 'Developed native Android app with Kotlin for controlling IoT devices, implemented Bluetooth and WiFi communication protocols, and created adaptive UI for different device types.',
-      impact: 'Gained deep understanding of mobile hardware communication and learned to design flexible architectures that adapt to different device specifications.',
-      mockup: '🌐',
-      mockupTitle: 'IoT Controller',
-      mockupSubtitle: 'Multi-Protocol Support',
-      technologies: ['Kotlin', 'Bluetooth', 'WiFi Protocols', 'Android Architecture Components', 'MVVM'],
-      liveLink: null,
-      status: 'In Development'
-    }
-  ];
-
-  const webProjects = [
-    {
-      title: 'AI-Powered Content Platform',
-      date: '2024',
-      problem: 'How might we create a content management platform that leverages AI for automated content generation and optimization while maintaining human creative control?',
-      exploration: 'Built full-stack web application with React and Spring Boot, integrated OpenAI GPT for content generation, implemented prompt engineering workflows, and created intuitive content editing interfaces.',
-      impact: 'Successfully integrated AI into traditional web workflows, reducing content creation time by 60% while improving quality. Gained expertise in prompt engineering and LLM integration.',
-      mockup: '🤖',
-      mockupTitle: 'AI Content Studio',
-      mockupSubtitle: 'GPT-Powered Creation',
-      technologies: ['React', 'Spring Boot', 'OpenAI GPT', 'Prompt Engineering', 'PostgreSQL', 'AI Integration'],
-      liveLink: 'https://demo.example.com',
-      status: 'Live'
-    },
-    {
-      title: 'Scalable Business Platform',
-      date: '2023',
-      problem: 'How might we create a modern, responsive web platform that handles complex business logic while maintaining excellent user experience and scalability?',
-      exploration: 'Transitioned from mobile to web development, learning React ecosystem, implementing REST APIs with Spring Boot, and integrating modern deployment practices with CI/CD.',
-      impact: 'Mastered full-stack development principles and learned the importance of API design. The platform now serves 1000+ users with 99.9% uptime, validating my transition to web technologies.',
-      mockup: '💼',
-      mockupTitle: 'Business Platform',
-      mockupSubtitle: 'Full-Stack Solution',
-      technologies: ['React', 'Spring Boot', 'REST APIs', 'PostgreSQL', 'CI/CD', 'Docker'],
-      liveLink: null,
-      status: 'Production'
-    },
-    {
-      title: 'Generative AI Workflow Manager',
-      date: '2024',
-      problem: 'How might we streamline complex generative AI workflows using ComfyUI and Stable Diffusion for non-technical users?',
-      exploration: 'Created web interface for managing ComfyUI workflows, integrated Stable Diffusion pipelines, implemented batch processing capabilities, and designed intuitive prompt management system.',
-      impact: 'Simplified complex AI workflows into user-friendly interfaces, enabling creative teams to leverage powerful AI tools without technical expertise. Reduced workflow setup time from hours to minutes.',
-      mockup: '🎨',
-      mockupTitle: 'AI Workflow Studio',
-      mockupSubtitle: 'ComfyUI Integration',
-      technologies: ['React', 'ComfyUI', 'Stable Diffusion', 'WebSockets', 'Python APIs', 'AI Orchestration'],
-      liveLink: null,
-      status: 'Coming Soon'
-    }
-  ];
-
-  const currentProjects = activeTab === 'android' ? androidProjects : webProjects;
+  const [tab, setTab] = useState<'web' | 'android'>('web');
+  const projects = tab === 'web' ? WEB_PROJECTS : ANDROID_PROJECTS;
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-b from-purple-900 to-purple-950 relative overflow-hidden">
-      {/* Background texture */}
-      <div className="absolute inset-0 texture-grain opacity-20"></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-lavender bg-clip-text text-transparent"
-        >
-          Featured Projects
-        </motion.h2>
-        
-        {/* Dynamic Tabs */}
+    <section id="projects" className="py-24 lg:py-32 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center mb-12"
+          transition={{ duration: 0.5 }}
+          className="mb-12"
         >
-          <div className="bg-purple-800/50 backdrop-blur-sm rounded-2xl p-2 border border-purple-600/30">
-            <div className="flex space-x-2">
-              <Button
-                onClick={() => setActiveTab('android')}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 relative ${
-                  activeTab === 'android'
-                    ? 'bg-gradient-to-r from-lavender to-pink-purple text-white shadow-lg'
-                    : 'text-purple-200 hover:text-white hover:bg-purple-700/50'
-                }`}
-              >
-                Android Projects
-                {activeTab === 'android' && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-lavender to-pink-purple rounded-full"
-                  />
-                )}
-              </Button>
-              <Button
-                onClick={() => setActiveTab('web')}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 relative ${
-                  activeTab === 'web'
-                    ? 'bg-gradient-to-r from-lavender to-pink-purple text-white shadow-lg'
-                    : 'text-purple-200 hover:text-white hover:bg-purple-700/50'
-                }`}
-              >
-                Web Projects
-                {activeTab === 'web' && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-lavender to-pink-purple rounded-full"
-                  />
-                )}
-              </Button>
-            </div>
-          </div>
+          <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+            Work
+          </p>
+          <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)]">
+            Projects
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+            All projects on{' '}
+            <a
+              href="https://github.com/Yashvvvv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline transition-colors"
+              style={{ color: 'var(--accent)' }}
+            >
+              github.com/Yashvvvv
+            </a>
+          </p>
         </motion.div>
-        
-        {/* Projects Grid */}
+
+        {/* Tab switcher */}
+        <div
+          className="inline-flex rounded-lg border p-1 mb-10"
+          style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+        >
+          {(['web', 'android'] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className="px-5 py-2 text-sm font-medium rounded-md transition-all duration-200"
+              style={{
+                backgroundColor: tab === t ? 'var(--surface-raised)' : 'transparent',
+                color: tab === t ? 'var(--text-heading)' : 'var(--text-muted)',
+              }}
+            >
+              {t === 'web' ? 'Web & Full-Stack' : 'Android'}
+            </button>
+          ))}
+        </div>
+
+        {/* Project list */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-            className="grid gap-8"
+            key={tab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-5"
           >
-            {currentProjects.map((project, index) => (
+            {projects.map((p, i) => (
               <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className={`${
-                  index % 2 === 0 ? 'bg-white text-purple-900' : 'bg-purple-950 text-white'
-                } rounded-2xl p-8 shadow-2xl border ${
-                  index % 2 === 0 ? 'border-purple-200' : 'border-purple-700'
-                } card-shadow hover:card-shadow-hover transition-all duration-300`}
+                key={p.title}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.07 }}
               >
-                <div className="grid lg:grid-cols-2 gap-8 items-center">
-                  <div className={index % 2 === 1 ? 'order-2 lg:order-1' : ''}>
-                    <div className="flex items-center justify-between mb-6">
-                      <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                        index % 2 === 0
-                          ? 'bg-purple-100 text-purple-800'
-                          : 'bg-purple-800/50 text-purple-200'
-                      }`}>
-                        {project.date}
-                      </span>
-                      <div className="flex items-center space-x-2">
-                        {project.liveLink && (
-                          <Button
-                            size="sm"
-                            onClick={() => window.open(project.liveLink, '_blank')}
-                            className="bg-gradient-to-r from-lavender to-pink-purple hover:from-purple-500 hover:to-pink-500 text-white"
-                          >
-                            Live Demo
-                          </Button>
-                        )}
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          project.status === 'Live' ? 'bg-emerald-100 text-emerald-800' :
-                          project.status === 'Production' ? 'bg-blue-100 text-blue-800' :
-                          project.status === 'Coming Soon' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {project.status}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-3xl font-bold mb-4">
-                      {project.title}
-                    </h3>
-                    
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="font-semibold text-lg mb-2 text-emerald-600">
-                          Problem Statement
-                        </h4>
-                        <p className={`${
-                          index % 2 === 0 ? 'text-purple-700' : 'text-purple-200'
-                        } leading-relaxed`}>
-                          {project.problem}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold text-lg mb-2 text-blue-500">
-                          Tech Exploration
-                        </h4>
-                        <p className={`${
-                          index % 2 === 0 ? 'text-purple-700' : 'text-purple-200'
-                        } leading-relaxed`}>
-                          {project.exploration}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="font-semibold text-lg mb-2 text-lavender">
-                          Key Learnings & Impact
-                        </h4>
-                        <p className={`${
-                          index % 2 === 0 ? 'text-purple-700' : 'text-purple-200'
-                        } leading-relaxed`}>
-                          {project.impact}
-                        </p>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2 mt-6">
-                        {project.technologies.map((tech: string) => (
-                          <span
-                            key={tech}
-                            className={`text-xs px-3 py-1 rounded-full border ${
-                              index % 2 === 0 
-                                ? 'bg-purple-50 text-purple-700 border-purple-200' 
-                                : 'bg-purple-800/30 text-purple-200 border-purple-600'
-                            }`}
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <motion.div
-                    whileHover={{ rotate: index % 2 === 0 ? 2 : -2, scale: 1.02 }}
-                    className={`relative ${index % 2 === 1 ? 'order-1 lg:order-2' : ''}`}
-                  >
-                    <div className="bg-gradient-to-br from-purple-800 to-purple-900 rounded-2xl p-6 shadow-2xl border border-purple-600">
-                      <div className={`${
-                        activeTab === 'android' ? 'aspect-[9/16]' : 'aspect-video'
-                      } bg-gradient-to-br from-lavender to-pink-purple rounded-xl flex items-center justify-center text-white relative overflow-hidden`}>
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/20"></div>
-                        <div className="text-center relative z-10">
-                          <div className="text-5xl mb-4">{project.mockup}</div>
-                          <div className="text-lg font-semibold opacity-90">{project.mockupTitle}</div>
-                          <div className="text-sm opacity-75 mt-2">{project.mockupSubtitle}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
+                <ProjectCard p={p} />
               </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
+
       </div>
     </section>
   );

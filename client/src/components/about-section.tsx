@@ -1,116 +1,133 @@
 import { motion } from 'framer-motion';
 
-export function AboutSection() {
-  const badges = [
-    { label: 'Prompt Engineer', color: 'bg-pink-purple/20 text-pink-purple border-pink-purple/30' },
-    { label: 'Gen AI Enthusiast', color: 'bg-lavender/20 text-lavender border-lavender/30' },
-    { label: 'Full-Stack Explorer', color: 'bg-blue-400/20 text-blue-300 border-blue-400/30' },
-    { label: 'Problem Solver', color: 'bg-emerald-400/20 text-emerald-300 border-emerald-400/30' }
-  ];
+const STATS = [
+  { value: '3+', label: 'Years building' },
+  { value: '6', label: 'Shipped projects' },
+  { value: '500+', label: 'DSA problems solved' },
+  { value: '2', label: 'Hackathon awards' },
+];
 
+export function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-purple-800 to-purple-900 relative overflow-hidden">
-      {/* Background texture */}
-      <div className="absolute inset-0 texture-grain opacity-20"></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+    <section id="about" className="py-24 lg:py-32 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+      <div className="max-w-5xl mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
+
+          {/* Left */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-lavender bg-clip-text text-transparent"
+            transition={{ duration: 0.5 }}
           >
-            About My Journey
-          </motion.h2>
-          
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                whileHover={{ y: -5 }}
-                className="bg-white text-purple-900 p-8 rounded-2xl shadow-2xl border border-purple-200 card-shadow hover:card-shadow-hover transition-all duration-300"
-              >
-                <h3 className="text-2xl font-bold mb-4 text-emerald-600">
-                  The Beginning
-                </h3>
-                <p className="text-purple-700 leading-relaxed">
-                  I launched my first mobile prototype in Kotlin—learned to debug hardware integration, 
-                  navigate Android's complex lifecycle, and discovered my passion for solving real-world 
-                  problems through code. Those late nights wrestling with sensor APIs taught me that 
-                  persistence and curiosity are a developer's best tools.
-                </p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                whileHover={{ y: -5 }}
-                className="bg-purple-950 text-white p-8 rounded-2xl shadow-2xl border border-purple-700 card-shadow hover:card-shadow-hover transition-all duration-300"
-              >
-                <h3 className="text-2xl font-bold mb-4 text-lavender">
-                  The Evolution & AI Revolution
-                </h3>
-                <p className="text-purple-200 leading-relaxed">
-                  I pivoted to React + Spring Boot to build scalable web solutions, then embraced the AI revolution. 
-                  Now I specialize in prompt engineering and integrating LLMs into applications. This journey taught me 
-                  that adaptability and continuous learning are essential—from mobile apps to web platforms to 
-                  generative AI workflows with ComfyUI and Stable Diffusion.
-                </p>
-              </motion.div>
+            <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+              About
+            </p>
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)] mb-6">
+              Who I am
+            </h2>
 
-              {/* Geeky badges */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-3"
-              >
-                {badges.map((badge, index) => (
-                  <motion.span
-                    key={badge.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    whileHover={{ scale: 1.05 }}
-                    className={`px-4 py-2 rounded-full text-sm font-medium border backdrop-blur-sm ${badge.color}`}
-                  >
-                    {badge.label}
-                  </motion.span>
-                ))}
-              </motion.div>
+            <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--text-body)' }}>
+              <p>
+                I'm an engineer who gravitates toward the system underneath the feature. At AppStorys,
+                I didn't just build UI — I designed the entire Kotlin Multiplatform architecture that
+                lets a single shared core power Android, Flutter, and React Native simultaneously.
+                Then I built the 4-layer QA pipeline to validate it end-to-end automatically.
+              </p>
+              <p>
+                My stack spans Android (Kotlin, Jetpack Compose, KMP), full-stack web (Spring Boot,
+                React, TypeScript, PostgreSQL), and automation (n8n, Render, Node.js pipelines).
+                I've shipped production features in all three, often on the same project.
+              </p>
+              <p>
+                I won Best Beginner Team at Hack This Fall 4.0 and reached the finals of Smart India
+                Hackathon with KrishiApp. I've solved 500+ DSA problems and led application development
+                at GDG on Campus GCET. I prefer building things that work over talking about building
+                things.
+              </p>
+              <p>
+                Currently focused on harness-based and automated deployment workflows, integrating AI
+                where it genuinely earns its place in a system rather than as an afterthought.
+              </p>
             </div>
-            
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.8 }}
-              className="relative"
-            >
-              <div className="aspect-square bg-gradient-to-br from-purple-950 via-purple-800 to-purple-900 rounded-2xl flex items-center justify-center shadow-2xl border border-purple-600 card-shadow">
-                <div className="text-center p-8">
-                  <div className="text-8xl mb-6 animate-bounce-gentle">👨‍💻</div>
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    Passionate Developer
-                  </h3>
-                  <div className="flex flex-col space-y-2 text-purple-200">
-                    <span className="text-sm">Always Learning</span>
-                    <span className="text-xs text-lavender">•</span>
-                    <span className="text-sm">Always Building</span>
-                    <span className="text-xs text-pink-purple">•</span>
-                    <span className="text-sm">Always Exploring</span>
+          </motion.div>
+
+          {/* Right */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="space-y-4"
+          >
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3">
+              {STATS.map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: 0.2 + i * 0.06 }}
+                  className="rounded-xl border p-5"
+                  style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+                >
+                  <div className="font-display text-3xl font-bold text-[var(--text-heading)] mb-1">
+                    {s.value}
                   </div>
-                </div>
+                  <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Systems philosophy card */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              className="rounded-xl border p-5"
+              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+            >
+              <p className="text-base font-mono uppercase tracking-wide mb-3" style={{ color: 'var(--accent)' }}>
+                How I work
+              </p>
+              <ul className="space-y-2">
+                {[
+                  'Plan — design the architecture before writing a single line.',
+                  'Build — write clean, modular code with clear contracts between layers.',
+                  'Test — automate it. Four layers if needed, zero manual if possible.',
+                  'Deploy — know the pipeline and the rollback before day one.',
+                ].map((line, i) => (
+                  <li key={i} className="text-sm flex gap-2.5" style={{ color: 'var(--text-body)' }}>
+                    <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Contact strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+              className="rounded-xl border p-5"
+              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+            >
+              <p className="text-base font-mono uppercase tracking-wide mb-3" style={{ color: 'var(--pink-purple)' }}>
+                Find me
+              </p>
+              <div className="space-y-1.5 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+                <p>sharmayashh054@gmail.com</p>
+                <p>linkedin.com/in/yash-sharmagg</p>
+                <p>github.com/Yashvvvv</p>
+                <p>Noida, Uttar Pradesh</p>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
+
         </div>
       </div>
     </section>

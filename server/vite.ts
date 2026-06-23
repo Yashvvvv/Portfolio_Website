@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
 
 const viteLogger = createLogger();
@@ -20,6 +19,18 @@ export function log(message: string, source = "express") {
 }
 
 export async function setupVite(app: Express, server: Server) {
+  // load vite config dynamically to avoid executing any top-level
+  // await or heavy plugin initialization at module import time which
+  // can cause the whole process to fail silently.
+  let viteConfig: any = {};
+  try {
+    // dynamic import so we can catch and log errors
+    const mod = await import("../vite.config");
+    viteConfig = mod && mod.default ? mod.default : mod;
+  } catch (e) {
+    console.warn("Could not load vite.config, continuing with defaults:", e && (e as any).stack ? (e as any).stack : e);
+  }
+
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
@@ -29,11 +40,22 @@ export async function setupVite(app: Express, server: Server) {
   const vite = await createViteServer({
     ...viteConfig,
     configFile: false,
+    // do not forcefully exit the process from inside the logger.
+    // Instead surface the error so the outer caller can log a stack trace.
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
         viteLogger.error(msg, options);
-        process.exit(1);
+        // provide a visible stderr message and throw so it surfaces
+        // to the caller instead of abruptly exiting the process.
+        try {
+          const text = typeof msg === "string" ? msg : JSON.stringify(msg);
+          // keep this synchronous and explicit
+          console.error("[vite error]", text, options ?? "");
+        } catch (e) {
+          console.error("[vite error] (failed to stringify)", e);
+        }
+        throw new Error(typeof msg === "string" ? msg : "Vite logger error");
       },
     },
     server: serverOptions,

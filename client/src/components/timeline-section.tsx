@@ -1,155 +1,215 @@
 import { motion } from 'framer-motion';
+import { Briefcase, Users } from 'lucide-react';
+
+type EntryType = 'work' | 'community';
+
+interface TimelineEntry {
+  type: EntryType;
+  period: string;
+  org: string;
+  role: string;
+  location?: string;
+  bullets: string[];
+  stack?: string[];
+}
+
+const ENTRIES: TimelineEntry[] = [
+  {
+    type: 'work',
+    period: 'Dec 2025 – Present',
+    org: 'AppStorys · AppVersal Pvt. Ltd.',
+    role: 'Android Intern',
+    location: 'Noida, UP',
+    bullets: [
+      'Designed and built the entire KMP shared core architecture for the AppStorys SDK — a single Kotlin codebase deployed across Android (Kotlin), Flutter, and React Native, decoupling all business logic from platform-specific UI layers.',
+      'Engineered a 4-layer automated QA pipeline (DB → CDN diff → SDK parse validation → Paparazzi visual snapshots → Maestro E2E flows) that validates every campaign end-to-end with zero manual testing; built on a Node.js SSE orchestrator with a live dashboard.',
+      'Built and optimized Jetpack Compose UI components with robust state management and lifecycle safety for the in-app engagement SDK (stories, surveys, overlays, CTA flows).',
+      'Developed native UI layers in Kotlin, Flutter, and React Native on top of the shared KMP core, ensuring modular and consistent SDK integration across host applications.',
+    ],
+    stack: ['Kotlin', 'KMP', 'Jetpack Compose', 'Flutter', 'React Native', 'Node.js', 'Paparazzi', 'Maestro', 'adb', 'SSE'],
+  },
+  {
+    type: 'community',
+    period: 'Sept 2024 – July 2025',
+    org: 'GDG on Campus GCET',
+    role: 'Application Development Lead',
+    bullets: [
+      'Led the application development vertical — organised workshops on Android and full-stack development, mentored members building real projects.',
+    ],
+    stack: ['Android', 'Kotlin', 'React', 'Community Leadership'],
+  },
+  {
+    type: 'community',
+    period: 'Sept 2023 – Aug 2024',
+    org: 'GDSC GCET',
+    role: 'Cybersecurity Executive',
+    bullets: [
+      'Ran cybersecurity awareness sessions and technical workshops, introduced the college community to CTF-style problem solving.',
+    ],
+    stack: ['Cybersecurity', 'CTF', 'Community'],
+  },
+];
+
+const ICON_MAP: Record<EntryType, typeof Briefcase> = {
+  work: Briefcase,
+  community: Users,
+};
+
+const ACCENT_MAP: Record<EntryType, string> = {
+  work: 'var(--accent)',
+  community: 'var(--pink-purple)',
+};
+
+const ACHIEVEMENTS = [
+  { label: 'Best Beginner Team', sub: 'Hack This Fall 4.0 Hackathon' },
+  { label: 'SIH Finalist', sub: 'Smart India Hackathon — KrishiApp, top 50+ teams' },
+  { label: '500+ DSA solved', sub: 'LeetCode · GeeksforGeeks · CodeStudio' },
+];
 
 export function TimelineSection() {
-  const timelineItems = [
-    {
-      period: '2021-2022',
-      title: 'Android Development with Kotlin',
-      description: 'Built my first mobile prototype with Kotlin, learning hardware integration and native Android development patterns. Discovered my passion for problem-solving through code.',
-      technologies: ['Kotlin', 'Android SDK', 'Hardware Integration', 'Mobile UI'],
-      color: 'emerald',
-      position: 'right',
-      icon: '📱'
-    },
-    {
-      period: '2022-2023',
-      title: 'Web Development Mastery',
-      description: 'Pivoted to web development, mastering React ecosystem and modern frontend practices. Learned to create scalable, responsive applications with excellent UX.',
-      technologies: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'],
-      color: 'blue',
-      position: 'left',
-      icon: '💻'
-    },
-    {
-      period: '2023-2024',
-      title: 'Full-Stack Integration',
-      description: 'Expanded to Spring Boot backend development, creating end-to-end solutions. Mastered API design, database architecture, and deployment strategies.',
-      technologies: ['Spring Boot', 'REST APIs', 'PostgreSQL', 'CI/CD'],
-      color: 'violet',
-      position: 'right',
-      icon: '🔧'
-    },
-    {
-      period: '2024-Present',
-      title: 'AI & Prompt Engineering',
-      description: 'Embraced the AI revolution, specializing in prompt engineering and integrating LLMs into applications. Exploring ComfyUI, Stable Diffusion, and generative AI workflows.',
-      technologies: ['Prompt Engineering', 'OpenAI GPT', 'ComfyUI', 'Stable Diffusion', 'LangChain'],
-      color: 'pink',
-      position: 'left',
-      icon: '🤖'
-    }
-  ];
-
-  const getColorClasses = (color: string) => {
-    const colors = {
-      emerald: {
-        dot: 'bg-emerald-400',
-        badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30',
-        title: 'text-emerald-300'
-      },
-      blue: {
-        dot: 'bg-blue-400',
-        badge: 'bg-blue-500/20 text-blue-300 border-blue-400/30',
-        title: 'text-blue-300'
-      },
-      violet: {
-        dot: 'bg-violet-400',
-        badge: 'bg-violet-500/20 text-violet-300 border-violet-400/30',
-        title: 'text-violet-300'
-      },
-      pink: {
-        dot: 'bg-pink-purple',
-        badge: 'bg-pink-purple/20 text-pink-purple border-pink-purple/30',
-        title: 'text-pink-purple'
-      }
-    };
-    return colors[color as keyof typeof colors];
-  };
-
   return (
-    <section id="journey" className="py-20 bg-gradient-to-b from-purple-900 to-purple-800 relative overflow-hidden">
-      {/* Background texture */}
-      <div className="absolute inset-0 texture-grain opacity-30"></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+    <section id="journey" className="py-24 lg:py-32">
+      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white to-lavender bg-clip-text text-transparent"
+          transition={{ duration: 0.5 }}
+          className="mb-16"
         >
-          My Tech Journey
-        </motion.h2>
-        
+          <p className="text-base font-mono tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+            Experience
+          </p>
+          <h2 className="font-display text-4xl lg:text-5xl font-bold text-[var(--text-heading)]">
+            Background
+          </h2>
+          <p className="mt-4 leading-relaxed max-w-[52ch] text-sm" style={{ color: 'var(--text-body)' }}>
+            Work and community contributions. B.Tech AI/ML — Galgotias College of Engineering and Technology (7.5 CGPA).
+          </p>
+        </motion.div>
+
+        {/* Timeline */}
         <div className="relative">
-          {/* Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-400 via-blue-400 via-violet-400 to-pink-purple rounded-full"></div>
-          
-          {/* Timeline Items */}
-          <div className="space-y-24">
-            {timelineItems.map((item, index) => {
-              const colorClasses = getColorClasses(item.color);
-              
+          <div
+            className="absolute left-5 top-3 bottom-3 w-px hidden md:block"
+            style={{ backgroundColor: 'var(--border-subtle)' }}
+          />
+
+          <div className="space-y-6">
+            {ENTRIES.map((entry, i) => {
+              const Icon = ICON_MAP[entry.type];
+              const accent = ACCENT_MAP[entry.type];
+
               return (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: item.position === 'right' ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="relative flex items-center justify-center group"
+                  transition={{ duration: 0.45, delay: i * 0.08 }}
+                  className="relative md:pl-16"
                 >
-                  <motion.div 
-                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 ${colorClasses.dot} rounded-full border-4 border-purple-900 z-10 flex items-center justify-center text-xl shadow-lg`}
-                    whileHover={{ scale: 1.1 }}
+                  {/* Icon dot */}
+                  <div
+                    className="absolute left-[9px] top-4 w-8 h-8 rounded-full border items-center justify-center hidden md:flex"
+                    style={{ backgroundColor: 'var(--bg)', borderColor: 'var(--border)' }}
                   >
-                    {item.icon}
-                  </motion.div>
-                  
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className={`${
-                      index % 2 === 0 ? 'bg-white text-purple-900' : 'bg-purple-950 text-white'
-                    } p-8 rounded-2xl shadow-2xl border ${
-                      index % 2 === 0 ? 'border-purple-200' : 'border-purple-700'
-                    } max-w-lg ${
-                      item.position === 'right' ? 'ml-auto mr-4 md:mr-8' : 'mr-auto ml-4 md:ml-8'
-                    } group-hover:shadow-purple-500/25 transition-all duration-300 card-shadow hover:card-shadow-hover`}
+                    <Icon className="w-3.5 h-3.5" style={{ color: accent }} />
+                  </div>
+
+                  {/* Card */}
+                  <div
+                    className="rounded-xl border p-6 transition-colors duration-200"
+                    style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-subtle)')}
                   >
-                    <div className="flex items-center mb-4">
-                      <span className={`px-4 py-2 rounded-full text-sm font-medium border ${colorClasses.badge}`}>
-                        {item.period}
-                      </span>
-                    </div>
-                    
-                    <h3 className={`text-2xl font-bold mb-3 ${colorClasses.title}`}>
-                      {item.title}
-                    </h3>
-                    
-                    <p className={`${index % 2 === 0 ? 'text-purple-700' : 'text-purple-200'} mb-6 leading-relaxed`}>
-                      {item.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {item.technologies.map((tech) => (
+                    <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Icon className="w-3.5 h-3.5 md:hidden" style={{ color: accent }} />
+                          <h3 className="font-display font-semibold text-base text-[var(--text-heading)]">
+                            {entry.role}
+                          </h3>
+                        </div>
+                        <p className="text-sm font-medium" style={{ color: accent }}>{entry.org}</p>
+                      </div>
+                      <div className="text-right">
                         <span
-                          key={tech}
-                          className={`text-xs px-3 py-1 rounded-full border ${
-                            index % 2 === 0 
-                              ? 'bg-purple-100 text-purple-800 border-purple-200' 
-                              : 'bg-purple-800/50 text-purple-200 border-purple-600'
-                          }`}
+                          className="text-xs font-mono px-2.5 py-1 rounded"
+                          style={{ color: 'var(--accent)', backgroundColor: 'hsl(258 68% 60% / 0.10)' }}
                         >
-                          {tech}
+                          {entry.period}
                         </span>
-                      ))}
+                        {entry.location && (
+                          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                            {entry.location}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </motion.div>
+
+                    <ul className="space-y-2 mb-4">
+                      {entry.bullets.map((b, j) => (
+                        <li key={j} className="text-sm leading-relaxed flex gap-2.5" style={{ color: 'var(--text-body)' }}>
+                          <span className="mt-2 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: accent }} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {entry.stack && (
+                      <div className="flex flex-wrap gap-1.5 pt-3 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+                        {entry.stack.map((t) => (
+                          <span
+                            key={t}
+                            className="text-xs font-mono px-2 py-0.5 rounded border"
+                            style={{
+                              color: 'var(--text-muted)',
+                              borderColor: 'var(--border-subtle)',
+                              backgroundColor: 'var(--surface-raised)',
+                            }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               );
             })}
           </div>
         </div>
+
+        {/* Achievements */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-14 pt-8 border-t"
+          style={{ borderColor: 'var(--border-subtle)' }}
+        >
+          <p className="text-base font-mono tracking-widest uppercase mb-5" style={{ color: 'var(--accent)' }}>
+            Achievements
+          </p>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {ACHIEVEMENTS.map((a, i) => (
+              <div
+                key={i}
+                className="rounded-lg border p-4"
+                style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border-subtle)' }}
+              >
+                <p className="font-display font-semibold text-sm text-[var(--text-heading)] mb-1">{a.label}</p>
+                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{a.sub}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );
