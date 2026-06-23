@@ -38,10 +38,31 @@ export function ContactSection() {
       return;
     }
     setSending(true);
-    await new Promise((r) => setTimeout(r, 900));
-    setSending(false);
-    toast({ title: 'Message sent', description: "I'll get back to you shortly." });
-    setForm({ name: '', email: '', projectType: '', message: '' });
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: 'a23f2cb5-f274-44ea-b89b-7757618d7f3b',
+          subject: `Portfolio enquiry from ${form.name}`,
+          name: form.name,
+          email: form.email,
+          project_type: form.projectType || 'Not specified',
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: 'Message sent', description: "I'll get back to you shortly." });
+        setForm({ name: '', email: '', projectType: '', message: '' });
+      } else {
+        toast({ title: 'Something went wrong', description: 'Please try again or email directly.', variant: 'destructive' });
+      }
+    } catch {
+      toast({ title: 'Network error', description: 'Please check your connection and try again.', variant: 'destructive' });
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
