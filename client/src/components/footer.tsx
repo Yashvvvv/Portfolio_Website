@@ -27,11 +27,14 @@ export function Footer() {
 
           {/* Brand */}
           <div className="max-w-xs">
-            <p className="font-display font-bold text-xl text-[var(--text-heading)] mb-2">
+            <p className="font-display font-bold text-xl text-[var(--text-heading)] mb-0.5">
               Yash Sharma
             </p>
+            <p className="text-xs mb-2 font-mono" style={{ color: 'var(--text-muted)' }}>
+              Noida, Uttar Pradesh
+            </p>
             <p className="text-xs leading-relaxed mb-4" style={{ color: 'var(--text-muted)' }}>
-              Android & full-stack engineer. B.Tech AI/ML, GCET. Currently building KMP SDK at AppStorys.
+              Android & full-stack engineer specializing in KMP, Spring Boot, and React. B.Tech AI/ML, GCET. Building production-grade systems at AppStorys.
             </p>
             <div className="flex gap-2">
               {SOCIAL.map((s) => (

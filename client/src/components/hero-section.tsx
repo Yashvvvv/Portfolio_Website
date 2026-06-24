@@ -122,9 +122,9 @@ export function HeroSection() {
               className="text-lg leading-relaxed mb-8 max-w-[48ch]"
               style={{ color: 'var(--text-body)' }}
             >
-              I design systems, not just features. KMP SDK architecture across Android, Flutter,
-              and React Native at AppStorys. Full-stack web with Spring Boot and React.
-              Automated QA pipelines, n8n workflows, and AI integrations that ship.
+              I build the architecture first, then the feature. KMP lets me ship one shared core
+              across Android, Flutter, and React Native — that's the kind of leverage I look for.
+              Full-stack with Spring Boot and React, automated where it counts. My focus is on creating reliable infrastructure that optimizes operational efficiency.
             </motion.p>
 
             <motion.div

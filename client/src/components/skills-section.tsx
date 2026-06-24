@@ -19,11 +19,11 @@ const CATEGORIES = [
   },
   {
     title: 'Database & Cloud',
-    skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Firebase', 'Room', 'Mongo Atlas', 'AWS EC2', 'Cloudflare Pages', 'Render'],
+    skills: ['SQL', 'PostgreSQL', 'MongoDB', 'Room', 'Mongo Atlas', 'AWS EC2', 'Cloudflare Pages', 'Render'],
   },
   {
     title: 'DevOps & Testing',
-    skills: ['Docker', 'GitHub Actions', 'Harness', 'Paparazzi', 'Maestro', 'adb', 'Git', 'Postman', 'JUnit', 'SSE Pipelines'],
+    skills: ['Docker', 'GitHub Actions', 'Harness Based Programming', 'Paparazzi', 'Maestro', 'adb', 'Git', 'Postman', 'JUnit', 'SSE Pipelines'],
   },
 ];
 
@@ -45,7 +45,7 @@ export function SkillsSection() {
             Skills & Tools
           </h2>
           <p className="mt-4 leading-relaxed max-w-[52ch] text-sm" style={{ color: 'var(--text-body)' }}>
-            Technologies I use across Android, full-stack web, automation, and AI integration.
+            Everything I reach for when building — across mobile, web, backend, and automation.
           </p>
         </motion.div>
 

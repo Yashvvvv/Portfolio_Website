@@ -84,7 +84,7 @@ export function TimelineSection() {
             Background
           </h2>
           <p className="mt-4 leading-relaxed max-w-[52ch] text-sm" style={{ color: 'var(--text-body)' }}>
-            Work and community contributions. B.Tech AI/ML — Galgotias College of Engineering and Technology (7.5 CGPA).
+            Where I've worked and what I've built outside of it. B.Tech AI/ML, Galgotias College of Engineering and Technology — 7.5 CGPA.
           </p>
         </motion.div>
 

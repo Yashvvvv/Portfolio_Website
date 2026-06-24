@@ -28,7 +28,7 @@ export function AboutSection() {
             <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--text-body)' }}>
               <p>
                 I'm an engineer who gravitates toward the system underneath the feature. At AppStorys,
-                I didn't just build UI — I designed the entire Kotlin Multiplatform architecture that
+                I didn't just build UI — I designed the entire Kotlin Multiplatform(KMP) architecture that
                 lets a single shared core power Android, Flutter, and React Native simultaneously.
                 Then I built the 4-layer QA pipeline to validate it end-to-end automatically.
               </p>
@@ -44,7 +44,7 @@ export function AboutSection() {
                 things.
               </p>
               <p>
-                Currently focused on harness-based and automated deployment workflows, integrating AI
+                Currently focused on harness-based programming and automated deployment workflows, integrating AI
                 where it genuinely earns its place in a system rather than as an afterthought.
               </p>
             </div>
